@@ -1,0 +1,64 @@
+Copyright (c) 2026 João Vittor. Todos os direitos reservados.
+
+LICENÇA DE VISUALIZAÇÃO
+
+Este projeto é código-fonte aberto para leitura, não para reutilização.
+
+O QUE É PERMITIDO
+
+  Qualquer pessoa pode visualizar, ler e analisar o código-fonte deste
+  repositório, inclusive para avaliação técnica em processo seletivo. Ler o
+  código, estudar as decisões e discutir a implementação são usos previstos e
+  bem-vindos.
+
+O QUE NÃO É PERMITIDO SEM AUTORIZAÇÃO ESCRITA DO TITULAR
+
+  Copiar, modificar, mesclar, publicar, distribuir, sublicenciar ou vender
+  cópias deste software, no todo ou em parte, bem como usá-lo para qualquer
+  finalidade comercial ou incorporá-lo a outro projeto.
+
+RESSALVAS
+
+  1. Dependências de terceiros. Esta licença cobre apenas o código autoral
+     deste projeto. As bibliotecas usadas (React, Motion, Lenis, o embed do
+     Cal.com e as demais listadas no package.json) permanecem sob as licenças
+     dos respectivos autores.
+
+  2. Fotografias. As imagens em public/imagens/ são provisórias e vêm do
+     Wikimedia Commons sob CC0 (domínio público). Elas continuam em domínio
+     público e não são afetadas por esta licença.
+
+  3. GitHub. Enquanto este repositório estiver público no GitHub, o Termo de
+     Serviço da plataforma já concede aos demais usuários o direito de
+     visualizar o código e criar forks dentro do próprio GitHub, independente
+     do que diga este arquivo. Esta licença continua valendo contra
+     redistribuição, uso comercial e reaproveitamento fora da plataforma.
+
+SEM GARANTIA
+
+  O software é fornecido "como está", sem garantia de qualquer natureza,
+  expressa ou implícita. Em nenhuma hipótese o titular será responsabilizado
+  por qualquer reivindicação, dano ou outra responsabilidade decorrente do
+  software ou de seu uso.
+
+Para pedir autorização de uso: abra uma issue neste repositório.
+
+--------------------------------------------------------------------------------
+
+ENGLISH SUMMARY (the Portuguese text above is the governing version)
+
+  Copyright (c) 2026 João Vittor. All rights reserved.
+
+  You may view, read and analyse this source code, including for technical
+  evaluation in a hiring process.
+
+  You may not copy, modify, merge, publish, distribute, sublicense or sell
+  copies of this software, in whole or in part, nor use it for any commercial
+  purpose, without written permission from the copyright holder.
+
+  Third-party dependencies keep their own licenses. The placeholder photographs
+  in public/imagens/ are CC0 and stay in the public domain. While this
+  repository is public on GitHub, GitHub's Terms of Service already grant other
+  users the right to view and fork it on the platform.
+
+  The software is provided "as is", without warranty of any kind.

@@ -1,0 +1,14 @@
+node_modules
+dist
+dist-ssr
+*.local
+.DS_Store
+.vite
+*.tsbuildinfo
+
+# Cache dos downloads do script de imagens. Some sem prejuizo:
+# `npm run imagens` baixa de novo.
+.cache-imagens
+
+# Logs da skill /browse
+.gstack/

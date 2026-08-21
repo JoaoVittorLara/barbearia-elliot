@@ -1,0 +1,333 @@
+<!doctype html>
+<!-- A classe nasce aqui, e nao e posta por JS, para a rolagem ja estar travada
+     no primeiro byte. O src/lib/carregando.ts a remove quando o loader sai. -->
+<html lang="pt-BR" class="carregando-ativo">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0D0D0D" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!--
+      A foto da hero e o LCP da pagina. Como ela e renderizada pelo React, o
+      browser so descobriria a URL depois de baixar e executar o JS. O preload
+      antecipa esse download para o inicio do carregamento.
+      As duas variantes usam `media` igual ao <picture> do componente Hero: so
+      a que vale para a tela atual e baixada, nunca as duas.
+    -->
+    <link
+      rel="preload"
+      as="image"
+      href="/imagens/PLACEHOLDER-hero-salao-1920x1080.webp"
+      type="image/webp"
+      media="(min-width: 768px)"
+      fetchpriority="high"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/imagens/PLACEHOLDER-hero-salao-960x1280.webp"
+      type="image/webp"
+      media="(max-width: 767px)"
+      fetchpriority="high"
+    />
+
+    <!--
+      A marca aparece dentro do loader, que e a primeira coisa na tela. Sem o
+      preload ela chegaria depois das setas e apareceria com um salto.
+      Embutir o SVG inline resolveria tambem, mas custaria +5,1 KB gzip NESTE
+      documento, que e a requisicao que todas as outras esperam. Preload custa
+      uma conexao paralela e 5 KB.
+    -->
+    <link
+      rel="preload"
+      as="image"
+      href="/logo-elliot.svg"
+      type="image/svg+xml"
+      fetchpriority="high"
+    />
+
+    <!--
+      As fontes vem do Google Fonts. O preconnect abre a conexao antes do CSS
+      pedir o arquivo, o que corta uns 100ms do primeiro texto na tela.
+      crossorigin no segundo e obrigatorio: fonte e recurso CORS, sem isso o
+      browser abre uma segunda conexao e o preconnect vira desperdicio.
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!--
+      Truque padrao para a folha de estilo das fontes nao travar a pintura:
+      o browser trata `media="print"` como irrelevante para a tela e baixa sem
+      bloquear; quando chega, o onload troca para `all` e ela passa a valer.
+      Custava 490ms de render bloqueado antes disto.
+      O <noscript> cobre quem esta sem JS: ali ela carrega do jeito normal.
+    -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
+
+    <!--
+      Meta tags, Open Graph e JSON-LD entram aqui no build, gerados a partir de
+      src/dados/conteudo.ts pelo plugin em vite.config.ts. Nao escreva conteudo
+      neste arquivo: ele seria a segunda copia dos mesmos dados.
+    -->
+    <!--SEO-->
+
+    <!--
+      ====================================================================
+      LOADER DE ABERTURA, EM CSS EMBUTIDO E DE PROPOSITO.
+
+      Segunda e ultima excecao ao "estilo mora em src/index.css". A primeira
+      e o #hero-fundo, logo abaixo, e o motivo aqui e parente: o loader existe
+      para cobrir o intervalo entre o HTML chegar e o React montar. Se o CSS
+      dele viesse na folha do bundle, o navegador mostraria tela vazia ate a
+      folha chegar, que e justamente o que o loader deveria estar cobrindo.
+      Embutido aqui, ele pinta com o primeiro pedaco de HTML, sem rede.
+
+      Por nao passar pelo Tailwind, este bloco nao precisa de @layer.
+      ====================================================================
+    -->
+    <style>
+      #carregando {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.75rem;
+        background: #0d0d0d;
+        transition: opacity 400ms cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      #carregando.saindo {
+        opacity: 0;
+      }
+
+      /* Rolagem travada atras do loader. Removida junto com a classe do <html>. */
+      .carregando-ativo,
+      .carregando-ativo body {
+        overflow: hidden;
+      }
+
+      /* So a marca tem fade de entrada, e so porque ela vem de uma requisicao
+         e pode chegar uns instantes depois das setas. A grade NAO tem: ela e
+         CSS puro, existe no primeiro quadro, e comecar em opacity 0 atrasaria
+         a primeira pintura da pagina a toa. */
+      .carregando-marca {
+        width: 132px;
+        height: auto;
+        animation: carregando-aparecer 260ms ease-out both;
+      }
+
+      /* O brilho fica AQUI, no contêiner, e nao em cada seta.
+         Com `drop-shadow` nas 24 setas o navegador faz 24 desfoques por quadro,
+         no mesmo momento em que esta interpretando o bundle. Isso custou 2,5s
+         de main thread bloqueada e derrubou a nota de 98 para 61. No contêiner
+         e um desfoque so, e o halo fica visualmente igual porque as setas sao
+         vizinhas e o brilho delas se somaria de qualquer forma. */
+      .carregando-grade {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        filter: drop-shadow(0 0 18px #e8b004);
+      }
+
+      .carregando-grade .linha {
+        display: flex;
+      }
+
+      /* Cada seta e um triangulo feito de borda: sem largura, sem altura, so
+         as bordas laterais transparentes e a de baixo colorida. */
+      .seta {
+        --seta-tamanho: 12px;
+        --seta-tempo: 1s;
+        width: 0;
+        height: 0;
+        margin: 0 calc(var(--seta-tamanho) / -2);
+        border-left: var(--seta-tamanho) solid transparent;
+        border-right: var(--seta-tamanho) solid transparent;
+        border-bottom: calc(var(--seta-tamanho) * 1.8) solid #e8b004;
+        animation: carregando-piscar var(--seta-tempo) infinite;
+      }
+
+      .seta.baixo {
+        transform: rotate(180deg);
+      }
+
+      /* O atraso negativo adianta a animacao, o que faz a onda percorrer a
+         grade. A formula fica escrita uma vez; as 24 regras seguintes so
+         informam a posicao de cada seta na volta. */
+      .seta.externa {
+        animation-delay: calc(-1 * var(--i) * var(--seta-tempo) / 18);
+      }
+      .seta.interna {
+        animation-delay: calc(-1 * var(--i) * var(--seta-tempo) / 6);
+      }
+
+      .externa-1  { --i: 1 }  .externa-2  { --i: 2 }  .externa-3  { --i: 3 }
+      .externa-4  { --i: 4 }  .externa-5  { --i: 5 }  .externa-6  { --i: 6 }
+      .externa-7  { --i: 7 }  .externa-8  { --i: 8 }  .externa-9  { --i: 9 }
+      .externa-10 { --i: 10 } .externa-11 { --i: 11 } .externa-12 { --i: 12 }
+      .externa-13 { --i: 13 } .externa-14 { --i: 14 } .externa-15 { --i: 15 }
+      .externa-16 { --i: 16 } .externa-17 { --i: 17 } .externa-18 { --i: 18 }
+
+      .interna-1 { --i: 1 } .interna-2 { --i: 2 } .interna-3 { --i: 3 }
+      .interna-4 { --i: 4 } .interna-5 { --i: 5 } .interna-6 { --i: 6 }
+
+      @keyframes carregando-piscar {
+        0%   { opacity: 0.1 }
+        30%  { opacity: 1 }
+        100% { opacity: 0.1 }
+      }
+
+      @keyframes carregando-aparecer {
+        from { opacity: 0 }
+      }
+
+      /* Regra propria, e nao a global de src/index.css, porque aquela so chega
+         junto com a folha do bundle: tarde demais para este bloco.
+         Sem ela as setas congelariam em opacity 0.1, quase invisiveis. */
+      @media (prefers-reduced-motion: reduce) {
+        #carregando {
+          transition: none;
+        }
+        .carregando-marca {
+          animation: none;
+        }
+        .seta {
+          animation: none;
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!--
+      LOADER. Primeiro filho do body para ser a primeira coisa pintada.
+      Estilo no <style> la em cima; some pelo src/lib/carregando.ts.
+
+      role="status" + aria-label nomeiam o estado para o leitor de tela.
+      A grade e aria-hidden porque 24 divs vazias nao dizem nada a ele, e a
+      marca usa alt="" pelo mesmo motivo: quem nomeia e o contêiner.
+    -->
+    <div id="carregando" role="status" aria-label="Carregando">
+      <img
+        class="carregando-marca"
+        src="/logo-elliot.svg"
+        alt=""
+        width="132"
+        height="37"
+      />
+      <div class="carregando-grade" aria-hidden="true">
+        <div class="linha">
+          <div class="seta cima externa externa-18"></div>
+          <div class="seta baixo externa externa-17"></div>
+          <div class="seta cima externa externa-16"></div>
+          <div class="seta baixo externa externa-15"></div>
+          <div class="seta cima externa externa-14"></div>
+        </div>
+        <div class="linha">
+          <div class="seta cima externa externa-1"></div>
+          <div class="seta baixo externa externa-2"></div>
+          <div class="seta cima interna interna-6"></div>
+          <div class="seta baixo interna interna-5"></div>
+          <div class="seta cima interna interna-4"></div>
+          <div class="seta baixo externa externa-13"></div>
+          <div class="seta cima externa externa-12"></div>
+        </div>
+        <div class="linha">
+          <div class="seta baixo externa externa-3"></div>
+          <div class="seta cima externa externa-4"></div>
+          <div class="seta baixo interna interna-1"></div>
+          <div class="seta cima interna interna-2"></div>
+          <div class="seta baixo interna interna-3"></div>
+          <div class="seta cima externa externa-11"></div>
+          <div class="seta baixo externa externa-10"></div>
+        </div>
+        <div class="linha">
+          <div class="seta baixo externa externa-5"></div>
+          <div class="seta cima externa externa-6"></div>
+          <div class="seta baixo externa externa-7"></div>
+          <div class="seta cima externa externa-8"></div>
+          <div class="seta baixo externa externa-9"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Marca o instante em que o loader apareceu. O tempo minimo dele e
+      // contado a partir daqui, e nao do inicio da navegacao: numa conexao
+      // lenta o documento pode demorar, e ai o loader ficaria menos tempo na
+      // tela do que o previsto.
+      window.__carregandoDesde = performance.now();
+
+      // Rede de seguranca. Se o bundle nao carregar, por erro de rede ou de
+      // JS, ninguem chama esconderCarregando() e o visitante ficaria preso
+      // atras de uma tela travada. Em 5s o loader sai de qualquer jeito.
+      window.setTimeout(function () {
+        var el = document.getElementById("carregando");
+        if (!el) return;
+        document.documentElement.classList.remove("carregando-ativo");
+        document.getElementById("root").removeAttribute("inert");
+        el.classList.add("saindo");
+        window.setTimeout(function () {
+          el.remove();
+        }, 600);
+      }, 5000);
+    </script>
+
+    <!--
+      FUNDO DA HERO, EM HTML ESTATICO E DE PROPOSITO.
+
+      Esta e a unica parte visual que nao mora num componente React, e vale
+      explicar por que: dentro do React, a foto so era pintada depois do
+      browser baixar, interpretar e executar o bundle. Num celular modesto isso
+      dava 3,3s de tela preta antes da imagem aparecer (82% do LCP era espera
+      pelo JS). Aqui no HTML ela pinta imediatamente, sem depender de nada.
+
+      Estrutura fica aqui, estilo fica em src/index.css (bloco "#hero-fundo").
+      A altura acompanha a do <section id="hero">: as duas usam 100svh.
+      Ver tambem o comentario no topo de src/componentes/Hero.tsx.
+    -->
+    <div id="hero-fundo" aria-hidden="true">
+      <picture>
+        <!-- Celular em pe recebe a versao retrato. Os mesmos media queries do
+             preload la em cima, para o browser baixar uma imagem so. -->
+        <source
+          media="(max-width: 767px)"
+          srcset="/imagens/PLACEHOLDER-hero-salao-960x1280.webp"
+        />
+        <!-- TODO: substituir por foto real do salão da Elliot -->
+        <img
+          src="/imagens/PLACEHOLDER-hero-salao-1920x1080.webp"
+          alt=""
+          width="1920"
+          height="1080"
+          fetchpriority="high"
+          decoding="sync"
+        />
+      </picture>
+      <div class="hero-fundo-overlay"></div>
+    </div>
+
+    <!-- `inert` enquanto o loader cobre a tela: sem ele, quem navega por
+         teclado consegue tabular para dentro de um conteudo que nao esta
+         vendo. Removido junto com o loader, pelos dois caminhos (o normal e
+         a rede de seguranca). -->
+    <div id="root" inert></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
