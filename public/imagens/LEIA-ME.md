@@ -27,11 +27,22 @@ Ficam aqui só para o site não ter buracos enquanto as fotos reais não chegam.
 | `PLACEHOLDER-galeria-08-barba-finalizada` | 800x1000 | Barba completa, resultado final |
 | `PLACEHOLDER-galeria-09-recepcao` | 800x1000 | Recepção e espera |
 | `PLACEHOLDER-galeria-10-corte-social` | 800x1000 | Corte social com acabamento fino |
-| `PLACEHOLDER-og-1200x630.jpg` | 1200x630 | Imagem que aparece quando alguém compartilha o link no WhatsApp ou nas redes. JPEG de propósito: alguns leitores de Open Graph ainda tropeçam em WebP. |
 
 Cada foto da galeria também tem uma versão `-480x600.webp`, gerada
 automaticamente. Ela é a que o celular baixa. Você não precisa criar essas à
 mão.
+
+## `og-elliot-1200x630.jpg` não é placeholder
+
+É o card que aparece quando alguém compartilha o link no WhatsApp, no LinkedIn
+ou nas redes, e por isso não leva o prefixo `PLACEHOLDER-`: ele já é definitivo.
+Não é foto, é a logo sobre o preto da marca, e a fonte dele é
+`scripts/og-card.html`, com as instruções de regerar escritas lá dentro.
+
+Já foi uma foto genérica cortada em 1200x630, e era a peça com mais cara de
+provisória do projeto justamente onde ela é vista primeiro: antes de alguém
+abrir o site. Se um dia a barbearia quiser uma foto real aqui, o lugar de mexer
+é o `og-card.html`, não esta lista.
 
 ## Como trocar pelas fotos reais
 

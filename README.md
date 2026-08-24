@@ -73,7 +73,9 @@ O embed do Google só existe em tema claro, e um retângulo branco no meio de um
 
 Só "Barba na Navalha" tem agenda real no Cal.com. Os outros onze não vão ganhar um link inventado, porque agenda que não existe apresentada como se existisse é conteúdo falso. Mas eles também não podem ficar sem destino: o botão deles abre o WhatsApp com o serviço já escrito na mensagem, e o rótulo diz "Pedir horário" em vez de "Reservar", com o ícone do app. A pessoa sabe para onde vai antes de clicar, e o `TipoAgendamento` em `src/tipos.ts` nem oferece mais a variante sem destino.
 
-Duas regras atravessam o projeto inteiro. Nada inventado é apresentado como real, então os depoimentos assinam "Cliente 01" a "Cliente 06" e o JSON-LD não tem `aggregateRating`. E a paleta é 60-30-10 medido, com um inventário escrito no `CLAUDE.md` listando os nove lugares onde o dourado pode aparecer. Dourado fora da lista é bug, não escolha.
+Duas regras atravessam o projeto inteiro. Nada inventado é apresentado como real, então os depoimentos assinam "Cliente 01" a "Cliente 06" e o JSON-LD não tem `aggregateRating`. E a paleta é 60-30-10 medido, com um inventário no topo de `src/index.css` listando os dez lugares onde o dourado pode aparecer. Dourado fora da lista é bug, não escolha.
+
+As decisões que este README resume estão inteiras em [DECISOES.md](DECISOES.md), com o motivo de cada uma, e o que deu errado no caminho está datado em [BRAIN/brain.md](BRAIN/brain.md).
 
 ## Estrutura
 

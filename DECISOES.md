@@ -1,7 +1,14 @@
-# CLAUDE.md — Barbearia Elliot
+# Decisões do projeto — Barbearia Elliot
 
-Lei do projeto. Ler antes de qualquer tarefa. Histórico e lições vão em
-`./BRAIN/brain.md`, nunca aqui.
+Por que o projeto é do jeito que é.
+
+O [README](README.md) conta o que ele faz e mostra os números medidos. Este
+arquivo é a camada de baixo: as regras que o código assume em silêncio. Quase
+todo item aqui existe porque alguma coisa deu errado uma vez, e mudar sem ler o
+motivo costuma trazer o mesmo bug de volta.
+
+O histórico datado do que deu errado no caminho está em
+[`BRAIN/brain.md`](BRAIN/brain.md).
 
 ## O que é
 
@@ -39,12 +46,16 @@ cada uma (todas documentadas no topo de `src/index.css`):
 **Inventário do ouro.** `#E8B004` aparece só em: CTA do header (sólido apenas
 depois do scroll), CTA da hero, FAB do WhatsApp e seu pulso, chip de filtro
 ativo, anel de foco, a metade itálica do display da hero, hover/focus do botão
-ghost, a variável de marca do modal do Cal, e as setas do loader de abertura.
-Ouro fora dessa lista é bug de design. Nunca mais de um CTA dourado por dobra
-de tela.
+ghost, a variável de marca do modal do Cal, as setas do loader de abertura e a
+listra do poste na logo. Ouro fora dessa lista é bug de design. Nunca mais de um
+CTA dourado por dobra de tela. A lista completa também vive no topo de
+`src/index.css`; se mudar em um lugar, mudar no outro.
 
-O loader é a única exceção ao "ouro é só ação": é um momento de marca
-transitório, some em ~1s e acontece antes de existir conteúdo com que competir.
+Loader e logo são as duas exceções ao "ouro é só ação", ambas momentos de marca:
+o loader some em ~1s, antes de existir conteúdo com que competir, e a listra da
+logo tem poucos pixels e lê como desenho, não como algo clicável. O card de
+compartilhamento (`scripts/og-card.html`) herda o ouro da logo, mas vive fora da
+página e não conta para a distribuição de nenhuma dobra.
 
 ## Estrutura da página
 
@@ -139,12 +150,6 @@ sem nota de avaliação, sem endereço ou telefone falso passando por verdadeiro
 Placeholder existe, mas marcado com `// TODO: substituir por dados reais da
 Elliot` e visivelmente genérico.
 
-## Skills
-
-`/impeccable` para efeito visual e motion. `/browse` para toda navegação web.
-`/qa` para validar ponta a ponta. `/systematic-debugging` antes de propor
-correção de bug. `/verification-before-completion` antes de dizer que terminou.
-
 ## Barra de qualidade
 
 Lighthouse 90+ nas quatro categorias, em build de produção, mobile e desktop.
@@ -154,8 +159,8 @@ Os pontos que faltam no mobile são o custo do loader, todos em Speed Index
 (1,9s → 2,8s): a tela fica coberta por ~1s e o progresso visual atrasa. É
 esperado e aceito. Se um dia precisar recuperá-los, o dial é o `MINIMO_MS` em
 `src/lib/carregando.ts`.
-**Meça em `http://127.0.0.1:PORTA`, nunca em `localhost`**, e com o browser do
-`/browse` fechado. Em `localhost` o Chrome tenta IPv6 primeiro e soma ~300ms
+**Meça em `http://127.0.0.1:PORTA`, nunca em `localhost`**, e sem outro browser
+aberto disputando CPU. Em `localhost` o Chrome tenta IPv6 primeiro e soma ~300ms
 fixos ao documento, o que sozinho derruba a nota em 15 a 25 pontos.
 Mobile-first. WCAG AA. Navegação por teclado em chips, carrossel e modal.
 `prefers-reduced-motion` respeitado em três frentes: `MotionConfig

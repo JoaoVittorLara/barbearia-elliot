@@ -38,10 +38,10 @@
   Cal: a preferência de aparência do evento no Cal venceu e ele abria claro no
   meio da página preta. Tem que ir também no `config` do `cal("modal", ...)`,
   como `theme: "dark"` + `"ui.color-scheme": "dark"`.
-- [2026-08-19] Medir Lighthouse com o Chromium do `/browse` aberto deu 78 de
-  performance mobile, contra 96 com ele fechado. A máquina disputando CPU
-  distorce LCP e TBT. Antes de acreditar numa queda, feche o browser (`browse
-  stop`) e rode três vezes: vale a mediana, não a pior.
+- [2026-08-19] Medir Lighthouse com outro Chromium aberto deu 78 de performance
+  mobile, contra 96 com ele fechado. A máquina disputando CPU distorce LCP e
+  TBT. Antes de acreditar numa queda, feche os outros browsers e rode três
+  vezes: vale a mediana, não a pior.
 - [2026-08-19] Medir contra `http://localhost:5184` depois de subir o preview
   com `--host 0.0.0.0` derrubou a performance mobile de 96 para 83, e o desktop
   de 100 para 73. Causa: com o servidor escutando em IPv4 e IPv6, o Chrome
@@ -86,8 +86,8 @@
   loader. Sem isso dá para tabular para dentro do conteúdo coberto durante o
   ~1s em que o loader está na tela.
 - [2026-08-19] `chrome --headless --force-prefers-reduced-motion --screenshot`
-  testa movimento reduzido de verdade, o que o `/browse` não consegue (ele
-  bloqueia `Emulation.setEmulatedMedia`).
+  testa movimento reduzido de verdade. Por CDP não dá: `Emulation.setEmulatedMedia`
+  fica fora do alcance, então a flag na linha de comando é o caminho.
 - [2026-08-19] O retângulo cinza atrás do modal do Cal era o fundo da PÁGINA do
   Cal dentro do iframe, que ocupa a largura inteira da tela e não só a do card.
   `cssVarsPerTheme.dark["cal-bg"] = "transparent"` resolve. Pintar de `#0D0D0D`

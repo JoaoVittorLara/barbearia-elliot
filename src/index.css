@@ -24,11 +24,19 @@
      text-ouro         9.6:1  AA    passa ate em texto normal
 
    INVENTARIO DO OURO (unicos lugares onde #E8B004 aparece solido):
-     1. botao "Agendar" do header          5. anel de foco (global)
-     2. CTA primario da hero                6. metade italica do display da hero
-     3. FAB do WhatsApp + pulso             7. hover/focus do botao ghost de reserva
-     4. chip de filtro ativo                8. variavel de marca do modal Cal.com
+     1. botao "Agendar" do header          6. metade italica do display da hero
+     2. CTA primario da hero                7. hover/focus do botao ghost de reserva
+     3. FAB do WhatsApp + pulso             8. variavel de marca do modal Cal.com
+     4. chip de filtro ativo                9. setas do loader de abertura
+     5. anel de foco (global)              10. listra do poste na logo
    Qualquer ouro fora dessa lista e bug de design.
+
+   Os itens 9 e 10 sao momentos de marca, nao acoes, e por isso sao a excecao
+   ao "ouro e so acao": o loader some em ~1s, antes de existir conteudo com que
+   competir, e a listra da logo e uma area de poucos pixels que le como parte
+   do desenho, nao como algo clicavel. O card de compartilhamento
+   (scripts/og-card.html) herda o ouro da logo pelo mesmo motivo, mas ele vive
+   fora da pagina e nao conta para a distribuicao 60-30-10 de nenhuma dobra.
    ========================================================================== */
 
 @theme {

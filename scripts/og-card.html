@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Card de compartilhamento · Barbearia Elliot</title>
+
+    <!--
+      FONTE DO CARD DE OPEN GRAPH (o que aparece ao compartilhar o link).
+
+      POR QUE ISTO E UM HTML E NAO UM PASSO DO scripts/preparar-imagens.mjs:
+      o card tem texto, e o texto precisa da Inter, que neste projeto vem do
+      Google Fonts e nao esta instalada na maquina. Compor com sharp + SVG
+      dependeria do fontconfig achar a fonte e cairia numa fallback qualquer.
+      Aqui o browser carrega a Inter igual ao site, entao o card sai com a
+      tipografia certa. A logo nao tem esse problema: ela e path puro.
+
+      COMO REGERAR (com o browser headless do projeto):
+        1. viewport com deviceScaleFactor 2
+        2. carregar este arquivo
+        3. screenshot do elemento #card, que sai 2400x1260
+        4. reduzir para 1200x630 com lanczos3 e salvar como JPEG em
+           public/imagens/og-elliot-1200x630.jpg
+
+      O 2x do passo 1 NAO e capricho. No Windows o Chrome rasteriza texto com
+      subpixel (LCD) e o `-webkit-font-smoothing: antialiased` abaixo e ignorado,
+      porque so vale no macOS. O resultado em 1x sai com franja vermelha e azul
+      na borda das letras: invisivel numa tela, permanente dentro do JPEG.
+      Capturar em dobro e reduzir faz a media desses subpixels e devolve cinza
+      neutro, de quebra com a borda mais limpa.
+
+      JPEG, nao WebP: alguns leitores de Open Graph ainda tropecam em WebP.
+      Sem subamostragem de croma (4:4:4), senao a listra dourada do poste, que e
+      uma area pequena e saturada, sai com a borda suja.
+
+      Os valores abaixo sao os mesmos tokens de src/index.css, so que em pixel
+      fixo, porque o card tem tamanho unico e nao precisa de escala fluida. Se
+      um token mudar la, mudar aqui tambem.
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Cinza so para dar contraste ao redor quando alguem abre este arquivo
+         no browser para conferir. Nao entra no screenshot: ele recorta #card. */
+      body {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: #222;
+        font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+      }
+
+      #card {
+        width: 1200px;
+        height: 630px;
+        position: relative;
+        background: #0d0d0d;
+        /* Antialias em escala de cinza. Sem isto o Chrome usa subpixel (LCD) e
+           deixa franja vermelha e azul na borda das letras, que passa
+           despercebida numa tela mas fica congelada dentro do JPEG. */
+        -webkit-font-smoothing: antialiased;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 48px;
+      }
+
+      /* Hairline recuada: o mesmo border-claro/12 que fecha os cards do site.
+         Da moldura sem precisar de mais um elemento visivel. */
+      #card::after {
+        content: "";
+        position: absolute;
+        inset: 40px;
+        border: 1px solid rgb(229 229 229 / 0.12);
+      }
+
+      /* Igual ao eyebrow da hero: traco dos dois lados, versalete espacado.
+         letter-spacing 0.22em e o --text-eyebrow--letter-spacing do @theme. */
+      .eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 26px;
+        font-size: 24px;
+        font-weight: 500;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: rgb(229 229 229 / 0.56);
+      }
+
+      .eyebrow span {
+        display: block;
+        width: 68px;
+        height: 1px;
+        background: rgb(229 229 229 / 0.3);
+      }
+
+      /* 1046x292 no arquivo, ou seja 3.58:1. Em <img> o SVG e documento
+         isolado, mas a raiz dele carrega color="#E5E5E5", entao o
+         currentColor do traco resolve certo. */
+      #logo {
+        display: block;
+        width: 600px;
+      }
+
+      /* A tagline, e nao a og:description: no preview do WhatsApp o titulo e a
+         descricao ja aparecem como texto logo acima da imagem. Repetir a
+         descricao aqui gastaria o card dizendo duas vezes a mesma coisa. */
+      .tagline {
+        font-size: 36px;
+        font-weight: 400;
+        letter-spacing: -0.01em;
+        color: rgb(229 229 229 / 0.65);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="card">
+      <p class="eyebrow"><span></span>Barbearia<span></span></p>
+      <img id="logo" src="../public/logo-elliot.svg" alt="Barbearia Elliot" />
+      <p class="tagline">Corte perfeito, barba alinhada.</p>
+    </div>
+  </body>
+</html>

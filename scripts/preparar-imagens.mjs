@@ -100,15 +100,11 @@ const imagens = [
     saida: "PLACEHOLDER-galeria-10-corte-social-800x1000.webp",
   },
 
-  // --- Open Graph: o card que aparece quando alguem compartilha o link -----
-  // JPEG de proposito: WhatsApp e alguns leitores de OG ainda tropecam em WebP.
-  {
-    origem: `${CC0}/e/ee/Barbershop_Ritual_04_Cutting_Continues.jpg`,
-    saida: "PLACEHOLDER-og-1200x630.jpg",
-    largura: 1200,
-    altura: 630,
-    qualidade: 78,
-  },
+  // O card de Open Graph nao entra aqui. Ele ja foi uma foto do Wikimedia
+  // cortada em 1200x630, e era a peca com mais cara de placeholder do projeto
+  // justamente onde ela e vista primeiro: no preview do link, antes de alguem
+  // abrir o site. Hoje e um card proprio, com a logo sobre o preto, e a fonte
+  // dele e `scripts/og-card.html`. As instrucoes de regerar estao la dentro.
 ];
 
 const PADRAO = { largura: 800, altura: 1000, qualidade: 72 };

@@ -19,7 +19,7 @@ import { horarios, negocio, servicos } from "./conteudo.ts";
  * vite.config.ts, porque so e conhecida no momento do build: em producao vem da
  * Vercel, rodando local vem de `negocio.site`. Ver `resolverUrlDoSite()` la.
  */
-const imagemOg = (base: string) => `${base}/imagens/PLACEHOLDER-og-1200x630.jpg`;
+const imagemOg = (base: string) => `${base}/imagens/og-elliot-1200x630.jpg`;
 
 export function montarSeo(base: string) {
   return {
