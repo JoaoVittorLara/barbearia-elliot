@@ -10,7 +10,7 @@ Landing page de página única para uma barbearia. O site inteiro trabalha para 
 |---|---|
 | ![Seção de serviços com chips de filtro](docs/servicos.png) | ![Modal do Cal.com integrado ao tema escuro](docs/agendamento.png) |
 
-O layout do celular foi desenhado, não encolhido: o Figma de referência só tinha desktop. A hero troca a foto de paisagem por uma versão retrato, e a linha de serviço empilha em vez de espremer o nome.
+O layout do celular: A hero troca a foto de paisagem por uma versão retrato, e a linha de serviço empilha em vez de espremer o nome.
 
 <img src="docs/hero-mobile.png" alt="Hero em 390px de largura" width="280">
 
