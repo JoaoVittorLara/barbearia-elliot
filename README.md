@@ -2,7 +2,7 @@
 
 Landing page de página única para uma barbearia. O site inteiro trabalha para uma coisa só: levar o visitante ao agendamento.
 
-> ⚠️ **TODO: adicionar link do deploy (Vercel).** Este é o item mais importante do README.
+> ⚠️ **TODO: [adicionar link do deploy (Vercel)](https://barbearia-elliot.vercel.app/).**
 
 ![Hero da Barbearia Elliot](docs/hero-desktop.png)
 
