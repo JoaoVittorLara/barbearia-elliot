@@ -1,8 +1,14 @@
 # Barbearia Elliot
 
+[![Vite](https://img.shields.io/badge/Vite-8-646CFF?style=flat-square&logo=vite&logoColor=FFD62E)](https://vitejs.dev)
+[![React](https://img.shields.io/badge/React-19-20232A?style=flat-square&logo=react&logoColor=61DAFB)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![Licença](https://img.shields.io/badge/licen%C3%A7a-visualiza%C3%A7%C3%A3o-E8B004?style=flat-square&labelColor=0D0D0D)](LICENSE)
+
 Landing page de página única para uma barbearia. O site inteiro trabalha para uma coisa só: levar o visitante ao agendamento.
 
->  **TODO: [Link (Vercel)](https://barbearia-elliot.vercel.app/).**
+**No ar em [barbearia-elliot.vercel.app](https://barbearia-elliot.vercel.app/).**
 
 ![Hero da Barbearia Elliot](docs/hero-desktop.png)
 
