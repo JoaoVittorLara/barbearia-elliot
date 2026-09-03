@@ -153,15 +153,33 @@ Elliot` e visivelmente genérico.
 ## Barra de qualidade
 
 Lighthouse 90+ nas quatro categorias, em build de produção, mobile e desktop.
-Última medição (2026-08-21, mediana de 5 rodadas mobile e 3 desktop):
-desktop 100/100/100/100, mobile 93/100/100/100.
-Os pontos que faltam no mobile são o custo do loader, todos em Speed Index
+
+**Local** (2026-08-21, mediana de 5 rodadas mobile e 3 desktop, em
+`http://127.0.0.1:PORTA`): desktop 100/100/100/100, mobile 93/100/100/100. Os
+pontos que faltam no mobile são o custo do loader, todos em Speed Index
 (1,9s → 2,8s): a tela fica coberta por ~1s e o progresso visual atrasa. É
 esperado e aceito. Se um dia precisar recuperá-los, o dial é o `MINIMO_MS` em
 `src/lib/carregando.ts`.
+
+**Produção** (2026-09-03, commit [`b201116`](https://github.com/JoaoVittorLara/barbearia-elliot/commit/b201116431fcba3332c4e37088ac36f3fe892333),
+mediana de 5 rodadas mobile e 3 desktop, contra
+`https://barbearia-elliot.vercel.app/` de verdade, não localhost):
+desktop 99/100/100/100, mobile 93/100/100/100. Métricas medianas — desktop:
+FCP 0,9s, LCP 0,9s, TBT 10ms, CLS 0,015, SI 1,1s; mobile: FCP 1,5s, LCP 2,5s,
+TBT 210ms, CLS 0, SI 2,4s. As 5 rodadas mobile foram 77/82/93/93/94: variação
+grande, investigada antes de aceitar o número. Comparando a pior (77) com a
+melhor (94), o tempo de download do `index.html` foi 249ms contra 72ms,
+enquanto o trabalho de JS na tela foi igual ou pior na rodada "boa" — a
+diferença é rede real até o edge da Vercel naquele instante, não regressão de
+código. O preset mobile simula CPU 4x mais lenta, o que amplifica esse jitter.
+**Vale a mediana, nunca a pior rodada isolada.**
+
 **Meça em `http://127.0.0.1:PORTA`, nunca em `localhost`**, e sem outro browser
 aberto disputando CPU. Em `localhost` o Chrome tenta IPv6 primeiro e soma ~300ms
-fixos ao documento, o que sozinho derruba a nota em 15 a 25 pontos.
+fixos ao documento, o que sozinho derruba a nota em 15 a 25 pontos. Contra a
+URL de produção essa regra não vale (é DNS e domínio de verdade), mas aí entra
+a variação de rede documentada acima: rode pelo menos 5 vezes no mobile antes
+de confiar num número.
 Mobile-first. WCAG AA. Navegação por teclado em chips, carrossel e modal.
 `prefers-reduced-motion` respeitado em três frentes: `MotionConfig
 reducedMotion="user"`, o bloco `@media` no CSS, e o Lenis que nem é carregado.
