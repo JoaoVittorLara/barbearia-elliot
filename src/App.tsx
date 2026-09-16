@@ -3,6 +3,7 @@ import { Avaliacoes } from "./componentes/Avaliacoes";
 import { BotaoWhatsApp } from "./componentes/BotaoWhatsApp";
 import { Cabecalho } from "./componentes/Cabecalho";
 import { ContatoLocal } from "./componentes/ContatoLocal";
+import { Faq } from "./componentes/Faq";
 import { Galeria } from "./componentes/Galeria";
 import { Hero } from "./componentes/Hero";
 import { Rodape } from "./componentes/Rodape";
@@ -37,6 +38,7 @@ export default function App() {
         <Servicos />
         <Avaliacoes />
         <Galeria />
+        <Faq />
         <ContatoLocal />
       </main>
 

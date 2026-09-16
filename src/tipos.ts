@@ -87,6 +87,12 @@ export interface Horario {
   fecha?: string;
 }
 
+export interface Pergunta {
+  id: string;
+  pergunta: string;
+  resposta: string;
+}
+
 export interface RedeSocial {
   rotulo: string;
   href: string;

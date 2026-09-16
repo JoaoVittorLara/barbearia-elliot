@@ -18,6 +18,9 @@ type Props = {
   apoio?: string;
   /** Centralizado na maioria das secoes; a esquerda quando divide espaco. */
   alinhamento?: "centro" | "esquerda";
+  /** Para a section pai referenciar via aria-labelledby. Opcional: a maioria
+      das secoes nao precisa, so quando o titulo serve de rotulo acessivel. */
+  id?: string;
 };
 
 export function TituloSecao({
@@ -26,6 +29,7 @@ export function TituloSecao({
   destaque,
   apoio,
   alinhamento = "centro",
+  id,
 }: Props) {
   const centro = alinhamento === "centro";
 
@@ -39,7 +43,10 @@ export function TituloSecao({
         <span aria-hidden="true" className="h-px w-6 bg-claro/25" />
       </p>
 
-      <h2 className="mt-5 font-display text-h2 font-bold text-claro text-balance">
+      <h2
+        id={id}
+        className="mt-5 font-display text-h2 font-bold text-claro text-balance"
+      >
         {inicio} <span className="display-italico text-claro/80">{destaque}</span>
       </h2>
 

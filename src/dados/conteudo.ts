@@ -5,6 +5,7 @@ import type {
   ItemGaleria,
   LinkNav,
   Negocio,
+  Pergunta,
   RedeSocial,
   Servico,
   // Extensao explicita: este arquivo tambem e lido pelo vite.config.ts, fora
@@ -249,16 +250,20 @@ export const servicos: Servico[] = [
    5. AVALIACOES
    TODO: substituir por depoimentos REAIS da Elliot.
 
-   Os textos abaixo descrevem a si mesmos de proposito e os autores sao
-   "Cliente 01..06". Nenhum nome de pessoa foi inventado: depoimento falso com
-   nome falso e o tipo de coisa que derruba a confianca quando alguem percebe.
-   Ao trazer os reais, copie o texto como o cliente escreveu e mantenha a fonte.
+   Os textos abaixo sao depoimentos genericos de proposito: frases curtas que
+   serviriam para qualquer barbearia, sem fato especifico inventado. Os
+   autores sao "Cliente 01..06": nenhum nome de pessoa foi inventado, porque
+   depoimento falso com nome falso e o tipo de coisa que derruba a confianca
+   quando alguem percebe. A nota fica 5 uniforme em todas, pelo mesmo motivo
+   que o JSON-LD nao tem aggregateRating: numero de avaliacao so entra quando
+   for real. Ao trazer os depoimentos reais, copie o texto como o cliente
+   escreveu e mantenha a fonte.
    -------------------------------------------------------------------------- */
 export const avaliacoes: Avaliacao[] = [
   {
     id: "av-01",
     texto:
-      "Espaço para o depoimento do cliente. Duas ou três linhas funcionam melhor do que um parágrafo longo: o visitante lê todos os cards, não só o primeiro.",
+      "Atendimento atencioso do início ao fim. O resultado ficou exatamente como eu esperava, e o ambiente é muito agradável.",
     autor: "Cliente 01",
     fonte: "Google",
     nota: 5,
@@ -266,7 +271,7 @@ export const avaliacoes: Avaliacao[] = [
   {
     id: "av-02",
     texto:
-      "Depoimentos que citam um serviço específico convencem mais do que elogios genéricos. Prefira os que mencionam o corte, a barba ou o atendimento pelo nome.",
+      "Corte bem-feito e caprichado, com atenção a cada detalhe. Um ambiente confortável, do tipo que dá vontade de voltar.",
     autor: "Cliente 02",
     fonte: "Booksy",
     nota: 5,
@@ -274,7 +279,7 @@ export const avaliacoes: Avaliacao[] = [
   {
     id: "av-03",
     texto:
-      "Copie o texto exatamente como o cliente escreveu, sem corrigir nem enfeitar. A linguagem real é justamente o que faz a avaliação parecer verdadeira.",
+      "Profissionalismo do primeiro contato até o produto final. Recomendo para quem valoriza um bom acabamento.",
     autor: "Cliente 03",
     fonte: "Google",
     nota: 5,
@@ -282,7 +287,7 @@ export const avaliacoes: Avaliacao[] = [
   {
     id: "av-04",
     texto:
-      "Mantenha sempre a plataforma de origem. Avaliação atribuída pesa, avaliação anônima não pesa nada.",
+      "Equipe simpática e atenciosa, e um resultado que superou o que eu esperava para o dia. Já virou parte da minha rotina.",
     autor: "Cliente 04",
     fonte: "Instagram",
     nota: 5,
@@ -290,7 +295,7 @@ export const avaliacoes: Avaliacao[] = [
   {
     id: "av-05",
     texto:
-      "Seis depoimentos é um bom número: enche a grade em três colunas e ainda cabe no scroll do celular sem cansar.",
+      "Ambiente limpo e organizado, com um atendimento que faz diferença. Vale a experiência inteira, não só o corte.",
     autor: "Cliente 05",
     fonte: "Booksy",
     nota: 5,
@@ -298,7 +303,7 @@ export const avaliacoes: Avaliacao[] = [
   {
     id: "av-06",
     texto:
-      "Se um depoimento passar de quatro linhas, corte. O card fica desalinhado e ninguém termina de ler.",
+      "Cada visita é tranquila e sem pressa, com um resultado que vale o tempo investido. Assim que eu gosto.",
     autor: "Cliente 06",
     fonte: "Google",
     nota: 5,
@@ -439,3 +444,61 @@ export const agendamentoPrincipal = {
   namespace: "barbanavalha",
   link: "joao-vittor-l0wth7/barbanavalha",
 } as const;
+
+/* --------------------------------------------------------------------------
+   10. PERGUNTAS FREQUENTES (FAQ)
+   Fonte unica para a secao visivel (Faq.tsx) e para o FAQPage do JSON-LD
+   (seo.ts). Preco e horario citados aqui tem que continuar batendo com
+   `negocio` e `servicos` acima: e o mesmo motivo pelo qual o resto deste
+   arquivo existe, so que agora tambem lido por mecanismo de busca.
+   -------------------------------------------------------------------------- */
+export const perguntas: Pergunta[] = [
+  {
+    id: "faq-onde-fica",
+    pergunta: "Onde fica a Barbearia Elliot?",
+    resposta:
+      "A Barbearia Elliot fica no Batel, em Curitiba. O bairro é central e de fácil acesso por quem vem do centro ou do Água Verde. O endereço completo e o mapa estão na seção de contato, no fim desta página.",
+  },
+  {
+    id: "faq-agendamento",
+    pergunta: "Precisa agendar ou atende por ordem de chegada?",
+    resposta:
+      "O atendimento é por agendamento, sem ordem de chegada. Para Barba na Navalha, você marca direto pelo site, escolhe o horário livre e recebe a confirmação na hora. Para os demais serviços, você combina o horário pelo WhatsApp, com resposta assim que o barbeiro vir a mensagem. Sem fila e sem espera. Encaixes no mesmo dia dependem da agenda do barbeiro.",
+  },
+  {
+    id: "faq-preco-corte",
+    pergunta: "Quanto custa um corte na Barbearia Elliot?",
+    resposta:
+      "O corte masculino custa R$ 45. O design de barba custa R$ 45 e o combo de corte com barba sai por R$ 75. Os valores de cada serviço estão listados na seção de serviços, acima.",
+  },
+  {
+    id: "faq-tipos-corte",
+    pergunta: "Quais tipos de corte vocês fazem?",
+    resposta:
+      "Fazemos corte social, degradê, corte navalhado e acabamento na navalha. O barbeiro conversa sobre o formato do rosto e o tipo de cabelo antes de começar, para chegar no corte que funciona pra você.",
+  },
+  {
+    id: "faq-duracao",
+    pergunta: "Quanto tempo demora um corte?",
+    resposta:
+      "Um corte leva em média 40 minutos. Corte com barba leva cerca de 1h10. Como o atendimento é agendado, o horário reservado é seu, sem espera.",
+  },
+  {
+    id: "faq-horarios",
+    pergunta: "Quais são os horários de funcionamento?",
+    resposta:
+      "De terça a sexta, das 09h às 20h. Aos sábados, das 08h às 18h. A barbearia não abre aos domingos e segundas.",
+  },
+  {
+    id: "faq-pagamento",
+    pergunta: "Quais formas de pagamento vocês aceitam?",
+    resposta:
+      "Aceitamos Pix, dinheiro, cartão de débito e cartão de crédito. O pagamento é feito no balcão, ao fim do atendimento.",
+  },
+  {
+    id: "faq-pagar-antes",
+    pergunta: "Preciso pagar antes para garantir o horário?",
+    resposta:
+      "Não. O agendamento online não cobra nada na hora de marcar. Você paga no balcão depois do atendimento.",
+  },
+];

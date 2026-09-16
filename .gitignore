@@ -9,3 +9,12 @@ dist-ssr
 # Cache dos downloads do script de imagens. Some sem prejuizo:
 # `npm run imagens` baixa de novo.
 .cache-imagens
+
+# Logs do browser headless de QA (skill /browse)
+.gstack/
+
+# Saida do /graphify: grafo de conhecimento, cache e relatorio gerados a
+# partir do codigo. Regenera do zero a qualquer momento, e guarda caminho
+# absoluto desta maquina (.graphify_root, .graphify_python), entao nao serve
+# nem deveria ir para um repositorio publico.
+graphify-out/

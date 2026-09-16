@@ -1,6 +1,7 @@
 // Extensao explicita: este arquivo tambem e lido pelo vite.config.ts, fora do
 // bundler. Veja o comentario la.
-import { horarios, negocio, servicos } from "./conteudo.ts";
+import { horarios, negocio, perguntas, servicos } from "./conteudo.ts";
+import type { CategoriaId } from "../tipos.ts";
 
 /**
  * Monta as meta tags e o JSON-LD a partir de conteudo.ts.
@@ -31,7 +32,82 @@ export function montarSeo(base: string) {
 }
 
 /**
- * Schema.org. `HairSalon` em vez de `LocalBusiness` puro: e um subtipo dele,
+ * Tipo generico de servico por categoria, para o `serviceType` do schema.
+ * Nao e dado inventado: e so uma classificacao do que a categoria ja diz em
+ * `conteudo.ts`. Sem isso, todo Service sairia com o mesmo tipo implicito.
+ */
+const SERVICE_TYPE_POR_CATEGORIA: Record<CategoriaId, string> = {
+  corte: "Corte de cabelo masculino",
+  barba: "Barba",
+  combos: "Combo de corte e barba",
+  outros: "Serviço de barbearia",
+};
+
+/**
+ * ItemList com um Service por linha do cardapio de `conteudo.ts`. Cada
+ * Service referencia a barbearia por `@id` (`provider`) em vez de repetir
+ * nome, endereco ou telefone: o node `HairSalon` continua sendo o unico
+ * lugar onde esses dados existem.
+ *
+ * So "Barba na Navalha" (`agendamento.tipo === "cal"`) recebe `offers` com
+ * preco: e o unico servico com agenda online real. Preco em `Offer` e
+ * afirmacao comercial, e emitir isso para um servico que a Elliot ainda nao
+ * confirmou seria o mesmo erro que a regra do projeto ja proibe para
+ * depoimento com nome falso ou nota inventada — so que agora lido por
+ * mecanismo de busca em vez de por uma pessoa.
+ */
+function montarCatalogoServicos(base: string, barbeariaId: string) {
+  return {
+    "@type": "ItemList",
+    "@id": `${base}/#servicos`,
+    name: `Serviços — ${negocio.nome}`,
+    itemListElement: servicos.map((servico, indice) => ({
+      "@type": "ListItem",
+      position: indice + 1,
+      item: {
+        "@type": "Service",
+        name: servico.nome,
+        serviceType: SERVICE_TYPE_POR_CATEGORIA[servico.categoria],
+        areaServed: {
+          "@type": "City",
+          name: negocio.endereco.cidade,
+        },
+        provider: { "@id": barbeariaId },
+        ...(servico.agendamento.tipo === "cal" && {
+          offers: {
+            "@type": "Offer",
+            price: servico.precoBRL,
+            priceCurrency: "BRL",
+          },
+        }),
+      },
+    })),
+  };
+}
+
+/**
+ * FAQPage a partir de `perguntas` em conteudo.ts. Mesmo array que alimenta a
+ * secao visivel (Faq.tsx): pergunta e resposta aqui tem que ser sempre o
+ * texto que a pessoa le na tela, nunca uma segunda copia dele.
+ */
+function montarFaqPage(base: string) {
+  return {
+    "@type": "FAQPage",
+    "@id": `${base}/#faq`,
+    mainEntity: perguntas.map((item) => ({
+      "@type": "Question",
+      name: item.pergunta,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.resposta,
+      },
+    })),
+  };
+}
+
+/**
+ * Schema.org, como `@graph` para caber mais de um node sob o mesmo
+ * `@context`. `HairSalon` em vez de `LocalBusiness` puro: e um subtipo dele,
  * mais especifico, e e o que o Google usa para montar o painel de negocio
  * local de barbearia.
  */
@@ -46,10 +122,11 @@ export function montarJsonLd(base: string) {
     }));
 
   const precos = servicos.map((servico) => servico.precoBRL);
+  const barbeariaId = `${base}/#barbearia`;
 
-  return {
-    "@context": "https://schema.org",
+  const barbearia = {
     "@type": "HairSalon",
+    "@id": barbeariaId,
     name: negocio.nome,
     description: negocio.descricaoCurta,
     url: base,
@@ -72,14 +149,18 @@ export function montarJsonLd(base: string) {
     // Sem `aggregateRating`: nota agregada so entra quando existir avaliacao
     // real. Numero inventado aqui e motivo de penalizacao do Google, alem de
     // ser mentira para quem le.
-    makesOffer: servicos.map((servico) => ({
-      "@type": "Offer",
-      itemOffered: {
-        "@type": "Service",
-        name: servico.nome,
-      },
-      price: servico.precoBRL,
-      priceCurrency: "BRL",
-    })),
+    //
+    // Sem `makesOffer` aqui: ele existia com Offer/price para os 12 servicos,
+    // 11 deles placeholder, o que violava a mesma regra do paragrafo acima.
+    // O ItemList abaixo cobre o catalogo de servicos e ja respeita o filtro.
+  };
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      barbearia,
+      montarCatalogoServicos(base, barbeariaId),
+      montarFaqPage(base),
+    ],
   };
 }
