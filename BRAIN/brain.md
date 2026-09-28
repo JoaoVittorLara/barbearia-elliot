@@ -68,6 +68,14 @@
   loader adiava a primeira pintura: no quadro inicial o conteúdo estava em
   opacidade zero. Fade de entrada só faz sentido no que pode chegar atrasado
   (a logo, que vem de requisição); em conteúdo que já é CSS puro, ele só atrasa.
+- [2026-09-28] Calculei a variante intermediária da hero (`sizes="100vw"`) como
+  640w usando o mesmo raciocínio da galeria, que usa `70vw`. Errado: sob o
+  preset mobile do Lighthouse (412px × DPR 1,75 ≈ 721px físicos), 640w nunca
+  seria escolhido pelo browser, e o fix não teria corrigido a própria auditoria
+  que motivou ele. Pego a tempo testando com `/browse` no viewport exato do
+  Lighthouse antes de comitar; corrigido para 800w. **Ao gerar uma variante de
+  `srcset`, conferir contra o `sizes` real daquele `<img>`, não copiar o
+  raciocínio de outra imagem com `sizes` diferente.**
 
 ## ✅ Funcionou
 
@@ -128,6 +136,15 @@
 - [2026-08-19] Embed do Google Maps escurecido com
   `invert(0.9) hue-rotate(180deg) saturate(0.55)`. Sem o hue-rotate a água fica
   laranja. Volta ao normal no hover.
+- [2026-09-28] Nota mobile de produção oscilando entre 68 e 96 em rodadas
+  seguidas contra a mesma URL não era só jitter de rede: a hero (960w → 1920w)
+  e a galeria (480w → 800w) tinham um salto grande demais entre variantes de
+  `srcset`, sem opção no meio, então o browser baixava a candidata maior em
+  telas onde a menor já não bastava — 535 KB → 330 KB de desperdício. Gerar uma
+  variante intermediária (800w na hero, 640w na galeria) levou o piso mobile de
+  68 para 94. **Variância grande entre rodadas da mesma URL vale investigar
+  `network-requests` antes de aceitar como ruído.**
+
 ## Decisões
 
 - [2026-08-20] **Fachada de clique do mapa: revertida.** Ela existia para tirar

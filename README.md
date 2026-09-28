@@ -118,7 +118,7 @@ src/
 
 ## Resultado
 
-Lighthouse no build de produção via `npm run preview`, em `127.0.0.1`. Mediana de cinco rodadas no mobile e três no desktop:
+**Local**, via `npm run preview` em `127.0.0.1`. Mediana de cinco rodadas no mobile e três no desktop:
 
 | | Performance | Acessibilidade | Best Practices | SEO |
 |---|---|---|---|---|
@@ -131,6 +131,22 @@ Métricas de carregamento, da rodada mediana de cada plataforma:
 |---|---|---|---|---|
 | Desktop | 0,4s | 0,6s | 20ms | 0,035 |
 | Mobile | 1,4s | 2,1s | 250ms | 0,012 |
+
+**Produção**, contra [barbearia-elliot.vercel.app](https://barbearia-elliot.vercel.app/) de verdade, não localhost. Mesma metodologia:
+
+| | Performance | Acessibilidade | Best Practices | SEO |
+|---|---|---|---|---|
+| Desktop | **99** (78/99/100) | 100 | 100 | 100 |
+| Mobile | **96** (94/95/96/96/97) | 100 | 100 | 100 |
+
+Métricas de carregamento, da rodada mediana de cada plataforma:
+
+| | FCP | LCP | TBT | CLS | SI |
+|---|---|---|---|---|---|
+| Desktop | 0,5s | 0,9s | 0ms | 0,015 | 0,9s |
+| Mobile | 1,5s | 2,1s | 170ms | 0 | 2,3s |
+
+O 78 isolado no desktop é jitter de rede real contra o edge da Vercel naquele instante, não regressão de código — os detalhes de como isso foi investigado, e não aceito de cara, estão em [DECISOES.md](DECISOES.md#barra-de-qualidade).
 
 Bundle, medido arquivo por arquivo com `gzip -9`:
 
@@ -154,6 +170,8 @@ Os dois últimos ficam de fora do caminho crítico de propósito. Nenhum dos doi
 **Botão que não faz nada é pior do que botão nenhum.** Onze dos doze serviços tinham um "Reservar" sem destino: um `<button>` com `onClick` undefined. Só que o `whileHover` e o `whileTap` do Motion continuavam ligados, então ele levantava com o mouse e afundava no clique. A animação prometia uma resposta que não vinha, e quem testasse concluiria que o site está quebrado, não que aquele serviço não tem agenda. A correção não foi tirar a animação: foi dar destino real ao botão. Ele abre o WhatsApp com o nome do serviço já digitado, e o `TipoAgendamento` perdeu a variante sem destino, para o erro não poder voltar por descuido. A lição é que affordance é uma promessa: se o elemento reage ao ponteiro, ele assumiu um compromisso.
 
 **Terceiro que você não controla se resolve por timing, não por remoção.** O `embed.js` do Cal era sozinho a causa de dois problemas diferentes: main thread bloqueada e cookie de terceiro na auditoria. A saída fácil seria tirar o agendamento, que é justamente a razão do site existir. Em vez disso troquei o momento em que ele entra e a forma de abrir o modal, de atributos `data-cal-*` para chamada de função com a promessa memorizada, para que um clique antes do download terminar não se perca. O recurso continuou inteiro e as duas auditorias foram para 100.
+
+**Variação de nota no mobile nem sempre é rede.** A medição de produção oscilou entre 68 e 96 em cinco rodadas seguidas, contra a mesma URL. Antes de aceitar isso como jitter (que já tinha sido a explicação certa outra vez, na medição anterior), fui ver o `network-requests`: a hero e a galeria tinham um salto grande demais entre variantes de `srcset` — 1920w para 960w na hero, 960w direto para 480w na galeria — então em telas médias o browser baixava a candidata maior por falta de uma opção no meio, um desperdício de 535 KB para 330 KB dependendo de qual cache o CDN acertava naquela rodada. A correção foi gerar uma variante intermediária para as duas (800w na hero, 640w na galeria) calculada contra o próprio preset do Lighthouse: viewport 412px vezes DPR 1,75 dá ~721px físicos necessários. Uma primeira conta com 640w para a hero saiu errada — a hero usa `sizes="100vw"`, não os `70vw` da galeria, então 640w nunca seria escolhido sob aquele preset — e foi corrigida para 800w antes de comitar. O piso do mobile subiu de 68 para 94.
 
 ## Pendências
 

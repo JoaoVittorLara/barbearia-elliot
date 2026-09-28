@@ -161,18 +161,22 @@ pontos que faltam no mobile são o custo do loader, todos em Speed Index
 esperado e aceito. Se um dia precisar recuperá-los, o dial é o `MINIMO_MS` em
 `src/lib/carregando.ts`.
 
-**Produção** (2026-09-03, commit [`b201116`](https://github.com/JoaoVittorLara/barbearia-elliot/commit/b201116431fcba3332c4e37088ac36f3fe892333),
+**Produção** (2026-09-28, commit [`88a6945`](https://github.com/JoaoVittorLara/barbearia-elliot/commit/88a694504b4164838ecaedadc483a65f0ca68f25),
 mediana de 5 rodadas mobile e 3 desktop, contra
 `https://barbearia-elliot.vercel.app/` de verdade, não localhost):
-desktop 99/100/100/100, mobile 93/100/100/100. Métricas medianas — desktop:
-FCP 0,9s, LCP 0,9s, TBT 10ms, CLS 0,015, SI 1,1s; mobile: FCP 1,5s, LCP 2,5s,
-TBT 210ms, CLS 0, SI 2,4s. As 5 rodadas mobile foram 77/82/93/93/94: variação
-grande, investigada antes de aceitar o número. Comparando a pior (77) com a
-melhor (94), o tempo de download do `index.html` foi 249ms contra 72ms,
-enquanto o trabalho de JS na tela foi igual ou pior na rodada "boa" — a
-diferença é rede real até o edge da Vercel naquele instante, não regressão de
-código. O preset mobile simula CPU 4x mais lenta, o que amplifica esse jitter.
-**Vale a mediana, nunca a pior rodada isolada.**
+desktop 99/78/100, mediana 99; mobile 94/95/96/96/97, mediana 96. Métricas
+medianas — desktop: FCP 0,5s, LCP 0,9s, TBT 0ms, CLS 0,015, SI 0,9s; mobile:
+FCP 1,5s, LCP 2,1s, TBT 170ms, CLS 0, SI 2,3s. Antes deste fix, a mesma URL
+media 68/72/96/96/96 no mobile: o piso subiu de 68 para 94 depois de fechar
+um buraco de `srcset`: a hero e a
+galeria tinham um salto de tamanho grande demais entre variantes (960w direto
+pro 480w na galeria; só 1920w e 960w na hero), então o browser baixava a
+maior candidata mesmo em telas menores, um desperdício de 535 KB → 330 KB
+(ver commit `88a6945` e a entrada correspondente em `BRAIN/brain.md`). O 78
+isolado no desktop é o mesmo jitter de rede documentado abaixo, não
+regressão: FCP e LCP daquela rodada (2,1s) batem com tempo de resposta do
+edge, não com o trabalho de JS. **Vale a mediana, nunca a pior rodada
+isolada.**
 
 **Meça em `http://127.0.0.1:PORTA`, nunca em `localhost`**, e sem outro browser
 aberto disputando CPU. Em `localhost` o Chrome tenta IPv6 primeiro e soma ~300ms
