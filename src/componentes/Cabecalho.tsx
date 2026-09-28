@@ -67,7 +67,6 @@ export function Cabecalho() {
           <span className="apenas-leitor-tela">, ir para o topo da página</span>
         </a>
 
-        {/* Navegacao de desktop */}
         <nav aria-label="Navegação principal" className="hidden md:block">
           <ul className="flex items-center gap-8">
             {navegacao.map((item) => (
@@ -110,7 +109,6 @@ export function Cabecalho() {
         </div>
       </div>
 
-      {/* Painel do celular */}
       <AnimatePresence>
         {menuAberto && (
           <m.nav

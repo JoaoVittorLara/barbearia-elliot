@@ -62,8 +62,7 @@ export function Galeria() {
             ))}
           </ul>
 
-          {/* --- Controles ---------------------------------------------------
-              O id nao e decorativo: o BotaoWhatsApp observa este elemento para
+          {/* O id nao e decorativo: o BotaoWhatsApp observa este elemento para
               sair da frente. As setas ficam na mesma coluna do FAB (24px a 68px
               da direita contra 20px a 76px dele), entao sem isso a seta
               "proxima" fica coberta quando esta linha cai perto do rodape da

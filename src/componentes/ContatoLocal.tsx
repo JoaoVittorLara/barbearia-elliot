@@ -30,7 +30,6 @@ export function ContatoLocal() {
         />
 
         <div className="mt-12 grid gap-10 lg:grid-cols-2 lg:gap-14">
-          {/* --- Coluna de dados --------------------------------------------- */}
           <Revelar className="flex flex-col gap-8">
             <div>
               <h3 className="eyebrow flex items-center gap-2">
@@ -124,7 +123,6 @@ export function ContatoLocal() {
             </a>
           </Revelar>
 
-          {/* --- Mapa --------------------------------------------------------- */}
           <Revelar atraso={0.08} className="h-full">
             <div className="relative h-full min-h-88 overflow-hidden rounded-card border border-claro/12">
               <iframe

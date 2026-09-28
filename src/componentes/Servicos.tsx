@@ -55,7 +55,6 @@ export function Servicos() {
           apoio="Do corte clássico ao acabamento na navalha: cada serviço com tempo próprio e preço fechado, sem surpresa na hora de pagar."
         />
 
-        {/* --- Chips de filtro --------------------------------------------- */}
         <Revelar atraso={0.06}>
           <div
             role="group"
@@ -85,7 +84,6 @@ export function Servicos() {
           </div>
         </Revelar>
 
-        {/* --- Lista -------------------------------------------------------- */}
         <ul className="mt-10">
           <AnimatePresence initial={false} mode="popLayout">
             {visiveis.map((servico) => {

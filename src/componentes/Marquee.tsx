@@ -34,7 +34,6 @@ function Fila({ ariaOculto = false }: { ariaOculto?: boolean }) {
           className="flex items-center whitespace-nowrap px-6 text-eyebrow font-medium uppercase tracking-[0.2em] text-claro/65"
         >
           {texto}
-          {/* Separador decorativo entre um item e o proximo. */}
           <span aria-hidden="true" className="ml-6 text-claro/25">
             /
           </span>

@@ -36,7 +36,6 @@ export function Hero() {
       /* min-h-svh precisa bater com a altura de #hero-fundo no index.css. */
       className="flex min-h-svh flex-col justify-end"
     >
-      {/* --- Conteudo ------------------------------------------------------- */}
       <div className="container-conteudo pt-[calc(var(--h-header)+4rem)] pb-14 md:pb-20">
         {/* Traco dos dois lados, igual ao eyebrow das outras secoes
             (ver TituloSecao.tsx). `w-fit` para os tracos abracarem a palavra
