@@ -57,6 +57,13 @@ export interface ItemGaleria {
    * mostra. Gerada automaticamente por `npm run imagens`.
    */
   srcMenor?: string;
+  /**
+   * Versao 640x800 da mesma foto, entre `srcMenor` e `src`. Fecha um buraco
+   * medido no Lighthouse: um celular comum (DPR ~1.75) no carrossel pedia
+   * ~505px fisicos, o que descartava a versao 480 e forcava a 800 inteira.
+   * Gerada automaticamente por `npm run imagens`.
+   */
+  srcMedio?: string;
   /** Versao WebP. Sem ela o componente Imagem cai para um <img> simples. */
   srcWebp?: string;
   alt: string;

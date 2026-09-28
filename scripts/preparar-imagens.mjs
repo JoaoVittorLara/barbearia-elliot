@@ -57,6 +57,18 @@ const imagens = [
     altura: 1280,
     qualidade: 66,
   },
+  // Segundo tamanho de celular, mesma proporcao (~3:4). A hero ocupa 100% da
+  // largura da tela (nao 70% como a galeria), entao o preset mobile do
+  // Lighthouse (412px, DPR 1.75) ja pede ~721px fisicos - um candidato de
+  // 640 ficaria curto e nunca seria escolhido. 800 cobre com folga (~11%) e
+  // ainda economiza ~30% dos pixels em relacao aos 960 originais.
+  {
+    origem: `${CC0}/0/04/Barbershop_Ritual_01_Arrival.jpg`,
+    saida: "PLACEHOLDER-hero-salao-800x1067.webp",
+    largura: 800,
+    altura: 1067,
+    qualidade: 66,
+  },
 
   // --- Galeria: 4:5, sempre 800x1000 --------------------------------------
   {
@@ -110,15 +122,24 @@ const imagens = [
 const PADRAO = { largura: 800, altura: 1000, qualidade: 72 };
 
 /**
- * Cada foto da galeria tambem sai numa versao menor.
+ * Cada foto da galeria tambem sai em duas versoes menores.
  *
  * No desktop o card tem 352px de largura; servir 800px ali e mandar quase
- * quatro vezes mais pixel do que a tela usa. Com as duas versoes, o `srcset`
+ * quatro vezes mais pixel do que a tela usa. Com as tres versoes, o `srcset`
  * do componente Imagem deixa o browser escolher: 480 em tela comum, 800 em
  * tela retina.
+ *
+ * A versao 640 existe para fechar um buraco medido no Lighthouse: no
+ * carrossel mobile (`sizes` de 70vw), um celular de 412px de largura com DPR
+ * 1.75 (o preset mobile padrao do Lighthouse) pede ~505px fisicos. O
+ * candidato de 480 fica 25px curto, entao o browser descartava ele de vez e
+ * baixava o de 800 inteiro - quase o dobro do necessario, em ate 7 das 10
+ * fotos da galeria ao mesmo tempo. O de 640 cobre essa faixa.
  */
 const LARGURA_MENOR = 480;
 const ALTURA_MENOR = 600;
+const LARGURA_MEDIA = 640;
+const ALTURA_MEDIA = 800;
 
 async function existe(caminho) {
   try {
@@ -207,7 +228,7 @@ async function main() {
       console.log(`  ok   ${item.saida}  ${largura}x${altura}  ${kb} KB`);
       ok += 1;
 
-      // Galeria ganha a versao menor automaticamente, com o sufixo -480w.
+      // Galeria ganha as versoes menor e media automaticamente.
       if (item.saida.includes("galeria")) {
         const menor = await sharp(entrada)
           .resize(LARGURA_MENOR, ALTURA_MENOR, { fit: "cover", position: "centre" })
@@ -218,6 +239,18 @@ async function main() {
         await writeFile(join(destino, nomeMenor), menor);
         console.log(
           `  ok   ${nomeMenor}  ${LARGURA_MENOR}x${ALTURA_MENOR}  ${Math.round(menor.length / 1024)} KB`,
+        );
+        ok += 1;
+
+        const media = await sharp(entrada)
+          .resize(LARGURA_MEDIA, ALTURA_MEDIA, { fit: "cover", position: "centre" })
+          .webp({ quality: qualidade, effort: 5 })
+          .toBuffer();
+
+        const nomeMedio = item.saida.replace(/-(\d+)x(\d+)\.webp$/, "-640x800.webp");
+        await writeFile(join(destino, nomeMedio), media);
+        console.log(
+          `  ok   ${nomeMedio}  ${LARGURA_MEDIA}x${ALTURA_MEDIA}  ${Math.round(media.length / 1024)} KB`,
         );
         ok += 1;
       }

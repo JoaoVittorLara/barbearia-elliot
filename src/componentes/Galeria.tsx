@@ -48,8 +48,8 @@ export function Galeria() {
                 <Imagem
                   src={foto.src}
                   srcSet={
-                    foto.srcMenor
-                      ? `${foto.srcMenor} 480w, ${foto.src} 800w`
+                    foto.srcMenor && foto.srcMedio
+                      ? `${foto.srcMenor} 480w, ${foto.srcMedio} 640w, ${foto.src} 800w`
                       : undefined
                   }
                   alt={foto.alt}

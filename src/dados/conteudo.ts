@@ -321,6 +321,7 @@ export const galeria: ItemGaleria[] = [
   {
     src: "/imagens/PLACEHOLDER-galeria-01-corte-degrade-800x1000.webp",
     srcMenor: "/imagens/PLACEHOLDER-galeria-01-corte-degrade-480x600.webp",
+    srcMedio: "/imagens/PLACEHOLDER-galeria-01-corte-degrade-640x800.webp",
     alt: "Corte degradê masculino finalizado",
     largura: 800,
     altura: 1000,
@@ -328,6 +329,7 @@ export const galeria: ItemGaleria[] = [
   {
     src: "/imagens/PLACEHOLDER-galeria-02-barba-navalha-800x1000.webp",
     srcMenor: "/imagens/PLACEHOLDER-galeria-02-barba-navalha-480x600.webp",
+    srcMedio: "/imagens/PLACEHOLDER-galeria-02-barba-navalha-640x800.webp",
     alt: "Barba feita na navalha com toalha quente",
     largura: 800,
     altura: 1000,
@@ -335,6 +337,7 @@ export const galeria: ItemGaleria[] = [
   {
     src: "/imagens/PLACEHOLDER-galeria-03-cadeira-barbeiro-800x1000.webp",
     srcMenor: "/imagens/PLACEHOLDER-galeria-03-cadeira-barbeiro-480x600.webp",
+    srcMedio: "/imagens/PLACEHOLDER-galeria-03-cadeira-barbeiro-640x800.webp",
     alt: "Cadeira de barbeiro no salão da Elliot",
     largura: 800,
     altura: 1000,
@@ -342,6 +345,7 @@ export const galeria: ItemGaleria[] = [
   {
     src: "/imagens/PLACEHOLDER-galeria-04-acabamento-pezinho-800x1000.webp",
     srcMenor: "/imagens/PLACEHOLDER-galeria-04-acabamento-pezinho-480x600.webp",
+    srcMedio: "/imagens/PLACEHOLDER-galeria-04-acabamento-pezinho-640x800.webp",
     alt: "Acabamento do pezinho na máquina",
     largura: 800,
     altura: 1000,
@@ -349,6 +353,7 @@ export const galeria: ItemGaleria[] = [
   {
     src: "/imagens/PLACEHOLDER-galeria-05-ambiente-800x1000.webp",
     srcMenor: "/imagens/PLACEHOLDER-galeria-05-ambiente-480x600.webp",
+    srcMedio: "/imagens/PLACEHOLDER-galeria-05-ambiente-640x800.webp",
     alt: "Ambiente interno da barbearia",
     largura: 800,
     altura: 1000,
@@ -356,6 +361,7 @@ export const galeria: ItemGaleria[] = [
   {
     src: "/imagens/PLACEHOLDER-galeria-06-corte-tesoura-800x1000.webp",
     srcMenor: "/imagens/PLACEHOLDER-galeria-06-corte-tesoura-480x600.webp",
+    srcMedio: "/imagens/PLACEHOLDER-galeria-06-corte-tesoura-640x800.webp",
     alt: "Corte na tesoura em andamento",
     largura: 800,
     altura: 1000,
@@ -363,6 +369,7 @@ export const galeria: ItemGaleria[] = [
   {
     src: "/imagens/PLACEHOLDER-galeria-07-ferramentas-800x1000.webp",
     srcMenor: "/imagens/PLACEHOLDER-galeria-07-ferramentas-480x600.webp",
+    srcMedio: "/imagens/PLACEHOLDER-galeria-07-ferramentas-640x800.webp",
     alt: "Máquinas, navalha e pente na bancada",
     largura: 800,
     altura: 1000,
@@ -370,6 +377,7 @@ export const galeria: ItemGaleria[] = [
   {
     src: "/imagens/PLACEHOLDER-galeria-08-barba-finalizada-800x1000.webp",
     srcMenor: "/imagens/PLACEHOLDER-galeria-08-barba-finalizada-480x600.webp",
+    srcMedio: "/imagens/PLACEHOLDER-galeria-08-barba-finalizada-640x800.webp",
     alt: "Barba completa finalizada",
     largura: 800,
     altura: 1000,
@@ -377,6 +385,7 @@ export const galeria: ItemGaleria[] = [
   {
     src: "/imagens/PLACEHOLDER-galeria-09-recepcao-800x1000.webp",
     srcMenor: "/imagens/PLACEHOLDER-galeria-09-recepcao-480x600.webp",
+    srcMedio: "/imagens/PLACEHOLDER-galeria-09-recepcao-640x800.webp",
     alt: "Recepção e espera da barbearia",
     largura: 800,
     altura: 1000,
@@ -384,6 +393,7 @@ export const galeria: ItemGaleria[] = [
   {
     src: "/imagens/PLACEHOLDER-galeria-10-corte-social-800x1000.webp",
     srcMenor: "/imagens/PLACEHOLDER-galeria-10-corte-social-480x600.webp",
+    srcMedio: "/imagens/PLACEHOLDER-galeria-10-corte-social-640x800.webp",
     alt: "Corte social com acabamento fino",
     largura: 800,
     altura: 1000,

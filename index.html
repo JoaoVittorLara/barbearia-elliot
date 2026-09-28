@@ -24,10 +24,22 @@
       media="(min-width: 768px)"
       fetchpriority="high"
     />
+    <!--
+      Dois candidatos, nao um href fixo: a hero ocupa 100% da largura da
+      tela, entao o preset mobile do Lighthouse (412px, DPR 1.75) ja pede
+      ~721px fisicos - por isso o candidato menor e 800, nao 640 (640 ficaria
+      curto e nunca seria escolhido). Sem isso, todo celular baixava a de 960
+      inteira, 73 KB desperdicados, medido. imagesrcset e imagesizes precisam
+      espelhar exatamente o srcset e o sizes do <source> abaixo, senao o
+      preload acerta um arquivo diferente do que o browser realmente usa e os
+      dois acabam baixados.
+    -->
     <link
       rel="preload"
       as="image"
-      href="/imagens/PLACEHOLDER-hero-salao-960x1280.webp"
+      imagesrcset="/imagens/PLACEHOLDER-hero-salao-800x1067.webp 800w,
+                   /imagens/PLACEHOLDER-hero-salao-960x1280.webp 960w"
+      imagesizes="100vw"
       type="image/webp"
       media="(max-width: 767px)"
       fetchpriority="high"
@@ -305,10 +317,14 @@
     <div id="hero-fundo" aria-hidden="true">
       <picture>
         <!-- Celular em pe recebe a versao retrato. Os mesmos media queries do
-             preload la em cima, para o browser baixar uma imagem so. -->
+             preload la em cima, para o browser baixar uma imagem so. Dois
+             tamanhos - ver o comentario do preload acima sobre por que o
+             menor e 800, nao 640. -->
         <source
           media="(max-width: 767px)"
-          srcset="/imagens/PLACEHOLDER-hero-salao-960x1280.webp"
+          srcset="/imagens/PLACEHOLDER-hero-salao-800x1067.webp 800w,
+                  /imagens/PLACEHOLDER-hero-salao-960x1280.webp 960w"
+          sizes="100vw"
         />
         <!-- TODO: substituir por foto real do salão da Elliot -->
         <img
