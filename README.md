@@ -110,7 +110,7 @@ src/
     useCarrossel.ts          galeria por IntersectionObserver, não por scrollLeft
 
   componentes/
-    Hero, Servicos, Avaliacoes, Galeria, ContatoLocal, Rodape
+    Hero, Servicos, Avaliacoes, Galeria, Faq, ContatoLocal, Rodape
     Cabecalho, Marquee, TituloSecao        estrutura recorrente
     BotaoAgendar, BotaoWhatsApp, Imagem    primitivos
     Revelar, Icones, Logo
@@ -152,10 +152,10 @@ Bundle, medido arquivo por arquivo com `gzip -9`:
 
 | | Bruto | Gzip |
 |---|---|---|
-| `index.html` | 17,8 KB | 5,4 KB |
-| CSS | 31,0 KB | 6,8 KB |
-| JS principal | 304,9 KB | 97,0 KB |
-| **Caminho crítico** | **353,8 KB** | **109,2 KB** |
+| `index.html` | 25,4 KB | 6,9 KB |
+| CSS | 31,3 KB | 6,9 KB |
+| JS principal | 309,2 KB | 98,1 KB |
+| **Caminho crítico** | **365,9 KB** | **111,9 KB** |
 | Lenis (carrega ocioso) | 18,6 KB | 5,4 KB |
 | Cal.com (sob demanda) | 0,8 KB | 0,5 KB |
 

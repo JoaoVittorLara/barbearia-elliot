@@ -90,6 +90,7 @@ export const navegacao: LinkNav[] = [
   { href: "#servicos", rotulo: "Serviços" },
   { href: "#avaliacoes", rotulo: "Avaliações" },
   { href: "#galeria", rotulo: "Galeria" },
+  { href: "#faq", rotulo: "Perguntas" },
   { href: "#contato", rotulo: "Contato" },
 ];
 

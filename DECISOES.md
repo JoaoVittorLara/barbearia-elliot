@@ -59,7 +59,7 @@ página e não conta para a distribuição de nenhuma dobra.
 
 ## Estrutura da página
 
-Ordem fixa: Hero, Serviços, Avaliações, Galeria, Contato & Local, Rodapé.
+Ordem fixa: Hero, Serviços, Avaliações, Galeria, FAQ, Contato & Local, Rodapé.
 Header sticky com âncoras e CTA de agendamento permanente.
 
 ## Onde mora o quê
@@ -142,6 +142,16 @@ Cantos retos (2 a 3px); pill só em chip e FAB. Sem sombra, salvo o FAB.
 - **Chips de filtro** se justificam com 12 serviços. Abaixo de ~8, tirar.
 - **JSON-LD usa `HairSalon`**, subtipo de LocalBusiness, mais preciso para busca
   local. Sem `aggregateRating` enquanto não houver avaliação real.
+- **Catálogo de serviços e FAQ no JSON-LD, sem preço em serviço placeholder.**
+  `montarJsonLd()` (`src/dados/seo.ts`) junta `HairSalon`, o `ItemList` de
+  serviços e o `FAQPage` num `@graph` só, com `@id` cruzado (`provider: {
+  "@id": barbeariaId }`) para o endereço não existir em dois lugares. Só o
+  serviço com `agendamento.tipo === "cal"` (Barba na Navalha) ganha `offers`
+  com `price`: os outros 11 são placeholder, e preço inventado no JSON-LD é
+  dado falso apresentado como real, na mesma categoria de depoimento
+  fabricado. Isso já vazou uma vez — a primeira versão dava `makesOffer` para
+  os 12 de uma vez, direto no nó `HairSalon` — e foi corrigido antes de ir ao
+  ar. Não reintroduzir um campo de preço genérico no `HairSalon`.
 
 ## Conteúdo: a regra que não se quebra
 
